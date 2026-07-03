@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho - Loja Pereira</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <header>
+        <h1>Loja Pereira</h1>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="index.html#produtos">Produtos</a>
+            <a href="sobre.html">Contato</a>
+            <a href="carrinho.html" style="font-weight: bold; color: #2ecc71;">🛒 Carrinho</a>
+        </nav>
+    </header>
+
+    <main style="padding: 40px; max-width: 800px; margin: auto;">
+        <h2>Seu Carrinho de Compras</h2>
+        
+        <div id="lista-carrinho" style="margin-top: 20px;">
+            </div>
+
+        <div style="margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <h3>Total: <span id="total-carrinho" style="color: #2ecc71;">R$ 0,00</span></h3>
+            <div>
+                <button onclick="limparCarrinho()" style="background-color: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; font-weight: bold;">Limpar Carrinho</button>
+                <button onclick="finalizarCompra()" style="background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Finalizar Compra</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function carregarCarrinho() {
+            const lista = document.getElementById('lista-carrinho');
+            const totalElemento = document.getElementById('total-carrinho');
+            
+            // Pega a lista guardada no navegador
+            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+            if (carrinho.length === 0) {
+                lista.innerHTML = '<p style="color: #7f8c8d; font-style: italic;">Seu carrinho está vazio atualmente.</p>';
+                totalElemento.innerText = 'R$ 0,00';
+                return;
+            }
+
+            lista.innerHTML = '';
+            let somaTotal = 0;
+
+            carrinho.forEach((item) => {
+                // Converte o preço em texto para número para fazer a conta certa
+                const precoLimpo = parseFloat(item.preco.replace('.', '').replace(',', '.'));
+                somaTotal += precoLimpo;
+
+                lista.innerHTML += `
+                    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 15px 0;">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <img src="${item.imagem}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0;">${item.nome}</h4>
+                                <p style="margin: 0; color: #7f8c8d; font-size: 14px;">Tamanho: <strong>${item.tamanho}</strong></p>
+                            </div>
+                        </div>
+                        <span style="font-weight: bold; color: #2ecc71; font-size: 18px;">R$ ${item.preco}</span>
+                    </div>
+                `;
+            });
+
+            // Mostra o valor total formatado na tela
+            totalElemento.innerText = `R$ ${somaTotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        function limparCarrinho() {
+            localStorage.removeItem('carrinho');
+            carregarCarrinho(); // Atualiza a tela
+        }
+
+        function finalizarCompra() {
+            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            if(carrinho.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+            alert("Compra finalizada com sucesso! Obrigado por comprar na Loja Pereira.");
+            limparCarrinho();
+        }
+
+        // Executa a função automaticamente assim que a página abre
+        carregarCarrinho();
+    </script>
+</body>
+</html>

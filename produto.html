@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto - Loja Pereira</title>
+    <link rel="stylesheet" href="main.css"> </head>
+<body>
+
+    <header>
+        <h1>Loja Pereira</h1>
+       <nav>
+    <a href="index.html">Início</a>
+    <a href="index.html#produtos">Produtos</a>
+    <a href="sobre.html">Contato</a>
+    <a href="carrinho.html" style="margin-left: 15px; font-weight: bold; color: #2ecc71;">🛒 Carrinho</a>
+</nav>
+    </header>
+
+    <main style="padding: 40px; display: flex; gap: 40px; max-width: 1000px; margin: auto;">
+        <div class="produto-foto">
+            <img id="detalhe-imagem" src="" alt="" style="width: 100%; max-width: 400px; border-radius: 8px;">
+        </div>
+
+        <div class="produto-info">
+            <h2 id="detalhe-nome">Nome do Produto</h2>
+            <p id="detalhe-preco" style="font-size: 24px; color: #2ecc71; font-weight: bold; margin: 20px 0;">R$ 0,00</p>
+            
+            <label for="tamanho">Escolha o Tamanho:</label>
+            <select id="tamanho" style="padding: 8px; margin-bottom: 20px; display: block;">
+                <option value="P">P</option>
+                <option value="M">M</option>
+                <option value="G">G</400>
+                <option value="GG">GG</option>
+            </select>
+
+            <button id="btn-adicionar-carrinho" style="background-color: #2ecc71; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </main>
+
+   <script>
+    // 1. Pegar os dados que o JavaScript enviou através da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const nome = urlParams.get('nome');
+    const preco = urlParams.get('preco');
+    const imagem = urlParams.get('imagem');
+
+    // 2. Colocar os dados certos na tela
+    document.getElementById('detalhe-nome').innerText = nome;
+    document.getElementById('detalhe-preco').innerText = `R$ ${preco}`;
+    document.getElementById('detalhe-imagem').src = imagem;
+    document.getElementById('detalhe-imagem').alt = nome;
+
+    // 3. Lógica de adicionar ao carrinho
+    document.getElementById('btn-adicionar-carrinho').addEventListener('click', () => {
+        const tamanhoSelecionado = document.getElementById('tamanho').value;
+        
+        const itemCarrinho = {
+            nome: nome,
+            preco: preco,
+            imagem: imagem,
+            tamanho: tamanhoSelecionado
+        };
+
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        carrinho.push(itemCarrinho);
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+        // --- AQUI COMEÇA A ANIMAÇÃO ---
+        // Alterar temporariamente o botão
+        const btn = document.getElementById('btn-adicionar-carrinho');
+        const textoOriginal = btn.innerText;
+        btn.style.backgroundColor = '#27ae60';
+        btn.innerText = '✓ Adicionado!';
+
+        setTimeout(() => {
+            btn.style.backgroundColor = '#2ecc71';
+            btn.innerText = textoOriginal;
+        }, 2000);
+
+        // Criar o aviso flutuante (Toast)
+        const aviso = document.createElement('div');
+        aviso.innerText = `${nome} adicionado ao carrinho!`;
+        aviso.style.position = 'fixed';
+        aviso.style.bottom = '20px';
+        aviso.style.right = '20px';
+        aviso.style.backgroundColor = '#333';
+        aviso.style.color = '#fff';
+        aviso.style.padding = '15px 25px';
+        aviso.style.borderRadius = '8px';
+        aviso.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+        aviso.style.transition = 'all 0.5s ease';
+        aviso.style.opacity = '0';
+        aviso.style.transform = 'translateY(20px)';
+        aviso.style.zIndex = '1000';
+
+        document.body.appendChild(aviso);
+
+        setTimeout(() => {
+            aviso.style.opacity = '1';
+            aviso.style.transform = 'translateY(0)';
+        }, 100);
+
+        setTimeout(() => {
+            aviso.style.opacity = '0';
+            aviso.style.transform = 'translateY(20px)';
+            setTimeout(() => aviso.remove(), 500);
+        }, 3000);
+    });
+</script>
+</body>
+</html>

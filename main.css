@@ -1,0 +1,107 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f4f4;
+}
+
+header{
+background:#111;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 50px;
+}
+
+header a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
+
+.banner{
+background:#222;
+color:white;
+text-align:center;
+padding:70px;
+}
+
+.banner h2{
+font-size:40px;
+margin-bottom:15px;
+}
+
+.banner button{
+margin-top:20px;
+padding:12px 30px;
+border:none;
+background:#00b894;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+.titulo{
+text-align:center;
+margin:40px 0;
+}
+
+.produtos{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+margin-bottom:50px;
+}
+
+.produto{
+background:white;
+width:260px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+padding:20px;
+text-align:center;
+transition:.3s;
+}
+
+.produto:hover{
+transform:scale(1.05);
+}
+
+.produto img{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.produto h3{
+margin:15px 0;
+}
+
+.produto p{
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.produto button{
+background:#111;
+color:white;
+border:none;
+padding:10px 25px;
+border-radius:5px;
+cursor:pointer;
+}
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+}
